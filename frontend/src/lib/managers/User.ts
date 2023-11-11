@@ -11,7 +11,7 @@ export default class User extends ApiInterface {
      */
     async register() {
         console.log(this.email, this.password)
-        let { apiKey } = await this.apiFetch("user/add", "post", { email: this.email, password: this.password })
+        let { data: apiKey } = await this.apiFetch("user/add", "post", { email: this.email, password: this.password })
         return apiKey;
     }
 }
