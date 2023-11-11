@@ -73,6 +73,22 @@ namespace HackSheffield.Controllers
             return TodoItem.delete(id);
         }
 
+
+        [HttpGet]
+        [Route("py")]
+        public async Task<ActionResult<string>> Py()
+        {
+            return await getCorrect.get("qwe");
+        }
+        
+        [HttpGet]
+        [Route("cs")]
+        public async Task<ActionResult<List<CsvData>>> Cs()
+        {
+            return GetCsv.get();
+        }
+        
+
      
         
         

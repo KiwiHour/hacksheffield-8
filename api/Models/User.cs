@@ -10,8 +10,14 @@ public class User
 {
     public long Id { get; set; }
     public string Email { get; set; }
-    // public string Password { get; set; }
-    // public string Hash { get; set; }
+
+    public string Quiz { get; set; }
+    
+    public string Pred { get; set; }
+    
+    
+
+    public int PredictedClientId { get; set; }
 
     public User(long id, string email)
     {
@@ -24,7 +30,7 @@ public class User
         var command = DBConnection.connection.CreateCommand();
         command.CommandText =
         @"
-            SELECT *
+            SELECT (Id,Email,Quiz,Pred)
             FROM Users WHERE (Key=$key)
         ";
         command.Parameters.AddWithValue("$key", key);
@@ -34,6 +40,14 @@ public class User
             while (reader.Read())
             {
                 tmp = new User(reader.GetInt64(0), reader.GetString(1));
+                if (!reader.IsDBNull(2))
+                {
+                    tmp.Pred = reader.GetString(2);
+                }
+                if (!reader.IsDBNull(3))
+                {
+                    tmp.Pred = reader.GetString(3);
+                }
             }
         }
         return tmp;
@@ -113,6 +127,32 @@ public class User
         command.Parameters.AddWithValue("$email", email);
         command.Parameters.AddWithValue("$pwd", hash);
         command.Parameters.AddWithValue("$salt", saltstr);
+        command.ExecuteNonQuery();
+        return true;
+    }
+    
+    public static bool addQuiz(String email, String reizResult)
+    {
+        var command = DBConnection.connection.CreateCommand();
+        command.CommandText =
+            @"
+            UPDATE Users SET Quiz=$quiz WHERE email=$email
+        ";
+        command.Parameters.AddWithValue("$email", email);
+        command.Parameters.AddWithValue("$quiz", reizResult);
+        command.ExecuteNonQuery();
+        return true;
+    }
+    
+    public static bool predID(String email, String id)
+    {
+        var command = DBConnection.connection.CreateCommand();
+        command.CommandText =
+            @"
+            UPDATE Users SET Pred=$id WHERE email=$email
+        ";
+        command.Parameters.AddWithValue("$email", email);
+        command.Parameters.AddWithValue("$id", id);
         command.ExecuteNonQuery();
         return true;
     }
