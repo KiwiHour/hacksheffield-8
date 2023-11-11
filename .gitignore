@@ -9,7 +9,7 @@
 .vscode/
 getKey.cs
 openai.txt
-
+*GetKey*
 # Build results
 
 [Dd]ebug/
