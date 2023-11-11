@@ -11,7 +11,6 @@
         if (location.pathname != "/login") {
             let cookies = getCookies(document)
             if (!cookies.apiKey) {
-                console.log("No apikey")
                 await goto("/login")
             }
         }
