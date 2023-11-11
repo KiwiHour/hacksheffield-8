@@ -1,17 +1,18 @@
 <script lang="ts">
-    import { onMount, tick } from 'svelte';
+    import { onMount } from 'svelte';
     import type { LayoutData } from './$types';
-    import { getCookies } from '$lib/functions/getCookies';
     import { goto } from '$app/navigation';
     import Link from '$lib/components/Link.svelte';
     import { text } from '@sveltejs/kit';
+    import CookieManager from '$lib/managers/CookieManager';
 
     export let data: LayoutData;
     let loadPage = false;
 
     onMount(async () => {
         if (location.pathname != "/login") {
-            let cookies = getCookies(document)
+            let cookieManager = new CookieManager(document)
+            let cookies = cookieManager.getCookies()
             if (!cookies.apiKey) {
                 await goto("/login")
             }

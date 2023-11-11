@@ -19,7 +19,7 @@ namespace HackSheffield.Controllers
         
         [HttpPost]
         [Route("login")]
-        public async Task<ActionResult<String>> Login()
+        public async Task<ActionResult<TextResponse>> Login()
         {
             using (StreamReader reader = new StreamReader(Request.Body, Encoding.UTF8))
             {
@@ -27,14 +27,14 @@ namespace HackSheffield.Controllers
                 Dictionary<string, object> data = JsonConvert.DeserializeObject<Dictionary<string, object>>(requestBody);
                 
                 
-                return Models.User.auth(data["email"] as String, data["password"] as String);
+                return new TextResponse(Models.User.auth(data["email"] as String, data["password"] as String));
             }
             // return Models.User.auth(data["email"].ToString(), data["password"].ToString());
         }
 
         [HttpPost]
         [Route("add")]
-        public async Task<ActionResult<String>> Add()
+        public async Task<ActionResult<TextResponse>> Add()
         {
             using (StreamReader reader = new StreamReader(Request.Body, Encoding.UTF8))
             {
@@ -42,9 +42,16 @@ namespace HackSheffield.Controllers
                 Dictionary<string, object> data = JsonConvert.DeserializeObject<Dictionary<string, object>>(requestBody);
 
                 Models.User.insert(data["email"] as String, data["password"] as String);
-                return Models.User.auth(data["email"] as String, data["password"] as String);
+                return new TextResponse(Models.User.auth(data["email"] as String, data["password"] as String));
             }
             // return Models.User.auth(data["email"].ToString(), data["password"].ToString());
+        }
+
+        [HttpPost]
+        [Route("update")]
+        public async Task<ActionResult<bool>> Update()
+        {
+            return true;
         }
     }
 }
