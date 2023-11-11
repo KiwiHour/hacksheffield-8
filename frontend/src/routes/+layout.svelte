@@ -22,7 +22,7 @@
 {#if loadPage}
     <body>
         <div id = "header">
-            <Link path="/"><h1>Wattage Wizard</h1></Link>
+            <Link path=""><h1>Wattage Wizard</h1></Link>
             <div id = "navbar">
                 <Link path="account">Account</Link>
                 <Link path="login">Login</Link>
@@ -35,7 +35,7 @@
         </main>
 
         <div id = "footer">
-            <p>ew</p>
+            <p>Made by Will, Matt, Ayyub and Ben</p>
         </div>
     </body>
 {/if}
