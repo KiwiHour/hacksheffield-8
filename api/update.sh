@@ -8,8 +8,8 @@ curl localhost:2019/load -H "Content-Type: application/json" -d @caddy_config.js
 chmod a+rwx /home/helloworld/hacksheffield-8-main/api/data.db
 cd api
 dotnet publish --configuration Release HackSheffield.csproj 
-dotnet /home/helloworld/api/hacksheffield-8-main/bin/Release/net7.0/HackSheffield.dll &
+dotnet /home/helloworld/hacksheffield-8-main/api/bin/Release/net7.0/HackSheffield.dll &
 
 cd ..
-cd frontent
+cd frontend
 npm run build
