@@ -1,6 +1,15 @@
-import CookieManager from "$lib/CookieManager";
+interface Cookies {
+    [x: string]: string
+}
 
 export function getCookies(document: Document) {
-    let cookieManager = new CookieManager(document.cookie);
-    return cookieManager.getCookies()
+    let cookies: Cookies = {};
+    let cookiesRaw = document.cookie.split("; ")
+
+    for (let cookieRaw of cookiesRaw) {
+        let [key, value] = cookieRaw.split("=");
+        cookies[key] = value;
+    }
+    
+    return cookies;
 }

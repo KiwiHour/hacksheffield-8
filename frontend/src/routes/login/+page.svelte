@@ -1,5 +1,2 @@
-<script lang="ts">
-    import type { PageData } from './$types';
-
-    export let data: PageData;
-</script>
+Need an account?<br>
+<a href="/register">Register</a>
