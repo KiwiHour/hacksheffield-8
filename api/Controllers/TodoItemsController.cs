@@ -100,7 +100,7 @@ namespace HackSheffield.Controllers
         [Route("ai")]
         public async void AI(String chatId, String input, String theme)
         {
-            OpenAIClient client = new OpenAIClient("");
+            OpenAIClient client = new OpenAIClient("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");
             // Response<Completions> response = await client.GetCompletionsAsync(new CompletionsOptions()
             // {
             //     DeploymentName = "text-davinci-003", // assumes a matching model deployment or model name
