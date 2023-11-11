@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 using Azure;
 using Azure.AI.OpenAI;
 using HackSheffield.Models;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +17,7 @@ namespace HackSheffield.Controllers
     [ApiController]
     public class TodoItemsController : ControllerBase
     {
+        static Dictionary<string, string> chat = new Dictionary<string, string>();
         private readonly ILogger<TodoItemsController> _logger;
         public TodoItemsController(ILogger<TodoItemsController> logger)
         {
@@ -22,14 +25,38 @@ namespace HackSheffield.Controllers
         }
 
         // GET: api/TodoItems
+        // [HttpGet]
+        // public async Task<ActionResult<List<TodoItem>>> Get([FromQuery] String key)
+        // {
+        //     if (Models.User.getByKey(key) == null)
+        //     {
+        //         return StatusCode(401, "Please provide api key");
+        //     }
+        //     return  TodoItem.getAll();
+        // }    
+        
         [HttpGet]
-        public async Task<ActionResult<List<TodoItem>>> Get([FromQuery] String key)
+        [Route("newChat/{input}/{theme}")]
+        public async Task<ActionResult<string>> Get([FromRoute] String input, [FromRoute] String theme)
         {
-            if (Models.User.getByKey(key) == null)
-            {
-                return StatusCode(401, "Please provide api key");
-            }
-            return  TodoItem.getAll();
+            byte[] salt = RandomNumberGenerator.GetBytes(128 / 8);
+            string saltstr = Convert.ToBase64String(salt);
+            saltstr = saltstr.Replace("/", "ee");
+            // Thread t = new Thread(new ThreadStart(AI(saltstr)));
+            chat[saltstr] = "";
+            Task.Run(async () => {
+                AI(saltstr, input, theme);
+            });
+            return  saltstr;
+        }
+
+        [HttpGet]
+        [Route("getChat/{chatId}")]
+        public async Task<ActionResult<string>> Get([FromRoute] String chatId)
+        {
+            // Thread t = new Thread(new ThreadStart(AI(saltstr)));
+            
+            return  chat[chatId];
         }
 
         [HttpGet]
@@ -45,13 +72,15 @@ namespace HackSheffield.Controllers
         {
             return TodoItem.delete(id);
         }
+
+     
         
         
         [HttpGet]
         [Route("ai")]
-        public async Task<ActionResult<String>> AI()
+        public async void AI(String chatId, String input, String theme)
         {
-            OpenAIClient client = new OpenAIClient("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");
+            OpenAIClient client = new OpenAIClient("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");
             // Response<Completions> response = await client.GetCompletionsAsync(new CompletionsOptions()
             // {
             //     DeploymentName = "text-davinci-003", // assumes a matching model deployment or model name
@@ -67,8 +96,8 @@ namespace HackSheffield.Controllers
                 DeploymentName = "gpt-3.5-turbo", // Use DeploymentName for "model" with non-Azure clients
                 Messages =
                 {
-                    new ChatMessage(ChatRole.System, "You are a helpful assistant with the sole purpose of giving me eneregy saving tips, while talking like a pirate"),
-                    new ChatMessage(ChatRole.User, "Can you help me save money on my gigh energy bill?"),
+                    new ChatMessage(ChatRole.System, "You are a helpful assistant with the sole purpose of giving me eneregy saving tips, while talking like "+theme),
+                    new ChatMessage(ChatRole.User, input),
                     // new ChatMessage(ChatRole.Assistant, "Arrrr! Of course, me hearty! What can I do for ye?"),
                     // new ChatMessage(ChatRole.User, "What's the best way to train a parrot?"),
                 }
@@ -82,11 +111,11 @@ namespace HackSheffield.Controllers
                 }
                 if (!string.IsNullOrEmpty(chatUpdate.ContentUpdate))
                 {
-                    r += (chatUpdate.ContentUpdate);
+                    chat[chatId] += (chatUpdate.ContentUpdate);
+                    Console.WriteLine(chat[chatId]);
                 }
             }
 
-            return r;
         }
     }
 }
