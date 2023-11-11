@@ -5,6 +5,7 @@
     export let path: string;
 
     async function gotoAndRefresh() {
+        console.log("goto: "+path)
         await goto(path)
     }
 </script>
