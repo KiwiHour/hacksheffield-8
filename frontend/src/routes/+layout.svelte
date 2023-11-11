@@ -21,23 +21,23 @@
     })
 </script>
 
-<div id = "navbar">
-    <h1>
-    <ul>
-        <li>Home</li>
-        <li></li>
-        <li></li>
-    </ul>
-</div>
+{#if loadPage}
+    <div id = "navbar">
+        <h1><a href="/">Home</a></h1>
+        <ul>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
 
-<main>
-    <slot />
-</main>
+    <main>
+        <slot />
+    </main>
 
-<div id = "footer">
+    <div id = "footer">
 
-</div>
-
+    </div>
 {/if}
 
 <style>
