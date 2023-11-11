@@ -20,7 +20,7 @@
 </script>
 
 {#if loadPage}
-    <body>
+    <div id="wrapper">
         <div id = "header">
             <Link path=""><h1>Wattage Wizard</h1></Link>
             <div id = "navbar">
@@ -29,15 +29,15 @@
                 <Link path="quiz">Quiz</Link>
             </div>
         </div>
-
+    
         <main>
             <slot />
         </main>
-
+    
         <div id = "footer">
             <p>Made by Will, Matt, Ayyub and Ben</p>
         </div>
-    </body>
+    </div>
 {/if}
 
 <style>
@@ -50,6 +50,16 @@
         --light-colour: #fcf8f8;
 
         box-sizing: border-box;
+    }
+
+    #wrapper {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    main {
+        flex-grow: 1;
     }
 
     #header {
