@@ -1,7 +1,9 @@
 from openai import OpenAI
 import time
+f = open("openai.txt", "r")
+print(f.read())
 client = OpenAI(
-    api_key="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"
+    api_key=f.read()
 )
 
 def main():
