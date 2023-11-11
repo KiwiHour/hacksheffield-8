@@ -1,6 +1,7 @@
 <script lang="ts">
     import CookieManager from "$lib/managers/CookieManager";
     import User from "$lib/managers/User";
+    import Cookies from "js-cookie";
 
     let email: string;
     let password: string;
@@ -8,6 +9,8 @@
     async function registerUser() {
         let user = new User(null, email, password);
         let apiKey = await user.register() as string;
+        console.log(apiKey)
+        
         let cookieManager = new CookieManager(document);
         cookieManager.setCookie("apiKey", apiKey);
     }
