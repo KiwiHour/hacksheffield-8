@@ -1,12 +1,16 @@
 from openai import OpenAI
 import time
+import sys
+
+
 f = open("openai.txt", "r")
-print(f.read())
+# print(f.read())
 client = OpenAI(
     api_key=f.read()
 )
 
 def main():
+    print("here")
     thread = client.beta.threads.create()
     message = client.beta.threads.messages.create(
         thread_id=thread.id,
@@ -42,7 +46,7 @@ def main():
     message = client.beta.threads.messages.create(
         thread_id=thread.id,
         role="user",
-        content="Given we have a user with a wattage of 800 watts, which customerID is the most similar to this person"
+        content="Given we have a user with a wattage of " + sys.argv[1] + " watts, which customerID is the most similar to this person"
     )
     run2 = client.beta.threads.runs.create(
          thread_id=thread.id,

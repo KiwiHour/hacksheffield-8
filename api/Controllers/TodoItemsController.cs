@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.IO;
 using System.Reflection;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using NuGet.Protocol.Plugins;
 namespace HackSheffield.Controllers
 {
@@ -27,17 +28,7 @@ namespace HackSheffield.Controllers
         {
             _logger = logger;
         }
-
-        // GET: api/TodoItems
-        // [HttpGet]
-        // public async Task<ActionResult<List<TodoItem>>> Get([FromQuery] String key)
-        // {
-        //     if (Models.User.getByKey(key) == null)
-        //     {
-        //         return StatusCode(401, "Please provide api key");
-        //     }
-        //     return  TodoItem.getAll();
-        // }    
+        
         
         [HttpGet]
         [Route("newChat/{input}/{theme}")]
@@ -68,27 +59,29 @@ namespace HackSheffield.Controllers
             
             return  chat[chatId];
         }
-
-        [HttpGet]
-        [Route("add/{name}")]
-        public async Task<ActionResult<bool>> Add([FromRoute] String name)
-        {
-            return TodoItem.insert(name);
-        }
         
         [HttpGet]
-        [Route("del/{id}")]
-        public async Task<ActionResult<bool>> Del([FromRoute] String id)
+        [Route("setQuiz")]
+        public async Task<ActionResult<string>> Quiz([FromBody] String content, [FromQuery] String key)
         {
-            return TodoItem.delete(id);
+            // Thread t = new Thread(new ThreadStart(AI(saltstr)));
+            User us = Models.User.getByKey(key);
+            if (us == null)
+            {
+                return Unauthorized();
+            }
+
+            Models.User.addQuiz(us.Email, content);
+            // calculate wattage
+            Py(us,"700");
+
         }
 
-
-        [HttpGet]
-        [Route("py")]
-        public async Task<ActionResult<string>> Py()
+        
+        public async void Py(User us, string wattage)
         {
-            return await getCorrect.get("qwe");
+            
+            Models.User.predID(us.Email, await getCorrect.get(wattage));
         }
 
         [HttpGet]
@@ -98,12 +91,6 @@ namespace HackSheffield.Controllers
             return GetCsv.get();
         }
         
-        [HttpGet]
-        [Route("k")]
-        public async Task<ActionResult<String>> K()
-        {
-            return GetKey.getKey();
-        }
 
         [HttpGet]
         [Route("ai")]
