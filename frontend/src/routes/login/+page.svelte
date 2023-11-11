@@ -18,8 +18,11 @@
 
 <style>
     #login-wrapper {
+        width: 50%;
         display: flex;
         flex-flow: column wrap;
         justify-content: space-between;
+        margin: auto auto;
     }
+
 </style>
