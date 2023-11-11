@@ -1,5 +1,4 @@
-<script lang="ts">
-    import type { PageData } from './$types';
+<h1>Home Page</h1>
 
-    export let data: PageData;
-</script>
+<p>Learn about your home's energy efficiency!</p>
+
