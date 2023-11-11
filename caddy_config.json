@@ -18,7 +18,7 @@
                             "handle": [
                                 {
                                     "handler": "file_server",
-                                    "root": "/home/helloworld/frontend/dist"
+                                    "root": "/home/helloworld/hacksheffield-8/frontend/dist"
                                 }
                             ]
                         },
