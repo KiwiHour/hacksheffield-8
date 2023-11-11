@@ -11,7 +11,8 @@
                             "match": [
                                 {
                                     "host": [
-                                        "hs.willjay.rocks"
+                                        "hs.willjay.rocks",
+                                        "wattage.compare"
                                     ]
                                 }
                             ],
