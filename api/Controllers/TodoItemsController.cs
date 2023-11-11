@@ -90,7 +90,7 @@ namespace HackSheffield.Controllers
         {
             return await getCorrect.get("qwe");
         }
-        
+
         [HttpGet]
         [Route("cs")]
         public async Task<ActionResult<List<CsvData>>> Cs()
@@ -98,25 +98,18 @@ namespace HackSheffield.Controllers
             return GetCsv.get();
         }
         
-
-     
-        public string ReadResource()
+        [HttpGet]
+        [Route("k")]
+        public async Task<ActionResult<String>> K()
         {
-            // Determine path
-            var assembly = Assembly.GetExecutingAssembly();
-
-            using (Stream stream = assembly.GetManifestResourceStream("key.emb"))
-            using (StreamReader reader = new StreamReader(stream))
-            {
-                return reader.ReadToEnd();
-            }
+            return GetKey.getKey();
         }
-        
+
         [HttpGet]
         [Route("ai")]
         public async void AI(String chatId, String input, String theme)
         {
-            OpenAIClient client = new OpenAIClient("");
+            OpenAIClient client = new OpenAIClient(GetKey.getKey());
             // Response<Completions> response = await client.GetCompletionsAsync(new CompletionsOptions()
             // {
             //     DeploymentName = "text-davinci-003", // assumes a matching model deployment or model name
