@@ -1,10 +1,12 @@
-<script>
+<script lang="ts">
+    let email: String;
+    let password: String;
 </script>
 
 <div id="login-wrapper">
-    <input type="email" placeholder="Email" bind:value={} />
-    <input type="text" placeholder="Password" bind:value={} />
-    <input type="button" value="login" on:click={}>
+    <input type="email" placeholder="Email" bind:value={email} />
+    <input type="text" placeholder="Password" bind:value={password} />
+    <input type="button" value="login" on:click={() => "do shit"}>
 </div>
 
 <div id="register">
