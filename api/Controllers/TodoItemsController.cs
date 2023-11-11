@@ -14,6 +14,7 @@ using System.IO;
 using System.Reflection;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using NuGet.Protocol.Plugins;
+using System.Text.RegularExpressions;
 namespace HackSheffield.Controllers
 {
     [Route("api/test")]
@@ -21,7 +22,7 @@ namespace HackSheffield.Controllers
     public class TodoItemsController : ControllerBase
     {
         private static String[] themes = {"Chat GPT 4", "Monkey d. Luffy","Barack Obama", "Donald Trump", "Joe Biden", "Greta Thunberg", "Shadow Wizzard Money Gang", "Borat", "Mute"};
-   
+        private String estimatedWattage = "";
         static Dictionary<string, string> chat = new Dictionary<string, string>();
         private readonly ILogger<TodoItemsController> _logger;
         public TodoItemsController(ILogger<TodoItemsController> logger)
@@ -44,6 +45,8 @@ namespace HackSheffield.Controllers
             Task.Run(async () => {
                 AI(saltstr, input, theme);
             });
+
+
             return  saltstr;
         }
 
@@ -55,9 +58,33 @@ namespace HackSheffield.Controllers
         [Route("getChat/{chatId}")]
         public async Task<ActionResult<string>> Get([FromRoute] String chatId)
         {
-            // Thread t = new Thread(new ThreadStart(AI(saltstr)));
-            
-            return  chat[chatId];
+            return chat[chatId] + "Estimated wattage = ";
+        }
+        
+        [HttpGet]
+        [Route("calcWatts/{data}/{data1}/{data2}")]
+        public async Task<ActionResult<string>> Get([FromRoute] String data, [FromRoute] String data1, [FromRoute] String data2)
+        {
+            Watts(data, "One person uses a microwave 3 hours per day");
+            string pattern = "-----([0-9]+(?:.[0-9]+)?)-----";
+            Match match = Regex.Match(estimatedWattage, pattern);
+
+            string extractedNumber;
+            if (match.Success){
+                extractedNumber = match.Groups[1].Value;
+            }
+            else{
+                extractedNumber = "Failure";
+            }
+            return extractedNumber+"     "+estimatedWattage;
+        }
+
+
+        [HttpGet]
+        [Route("add/{name}")]
+        public async Task<ActionResult<bool>> Add([FromRoute] String name)
+        {
+            return TodoItem.insert(name);
         }
         
         [HttpGet]
@@ -145,6 +172,51 @@ namespace HackSheffield.Controllers
                 if (!string.IsNullOrEmpty(chatUpdate.ContentUpdate))
                 {
                     chat[chatId] += (chatUpdate.ContentUpdate);
+                }
+            }
+
+        }
+        
+        [HttpGet]
+        [Route("watts")]
+        public async void Watts(String chatId, String info)
+        {
+            OpenAIClient client = new OpenAIClient(GetKey.getKey());
+            // Response<Completions> response = await client.GetCompletionsAsync(new CompletionsOptions()
+            // {
+            //     DeploymentName = "text-davinci-003", // assumes a matching model deployment or model name
+            //     Prompts = { "Can you give me some tips on how to save electricity" },
+            // });
+            // foreach (Choice choice in response.Value.Choices)
+            // {
+            //     
+            //     return (choice.Text);
+            // }
+
+            info = "Uses microwave 24hrs a day";
+            var chatCompletionsOptions = new ChatCompletionsOptions()
+            {
+                DeploymentName = "gpt-3.5-turbo", // Use DeploymentName for "model" with non-Azure clients
+                Messages =
+                {
+                    new ChatMessage(ChatRole.System, "Can you please estimate the average wattage used in this houshold per 15 minutes based on this info: "+info+". If you think you need more info please assume it is the uk average. Can you please put your answer in the format -----answer-----. You must give your answer in this format it is essential. You must give a number answer no answer is unacceptable. Assume whatever you wish if necessary.Do not forget to use the format -----answer----- the answer is only the number nothing else, for example if the answer is 3 watts please write -----3----- at the end."),
+                    // new ChatMessage(ChatRole.Assistant, "Arrrr! Of course, me hearty! What can I do for ye?"),
+                    // new ChatMessage(ChatRole.User, "What's the best way to train a parrot?"),
+                }
+            };
+            String r = "";
+            await foreach (StreamingChatCompletionsUpdate chatUpdate in client.GetChatCompletionsStreaming(chatCompletionsOptions))
+            {
+                
+                
+                
+                if (chatUpdate.Role.HasValue)
+                {
+                    // Console.Write($"{chatUpdate.Role.Value.ToString().ToUpperInvariant()}: ");
+                }
+                if (!string.IsNullOrEmpty(chatUpdate.ContentUpdate))
+                {
+                    estimatedWattage += (chatUpdate.ContentUpdate);
                 }
             }
 

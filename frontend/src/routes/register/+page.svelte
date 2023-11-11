@@ -19,3 +19,11 @@
     <input type="password" placeholder="Password" bind:value={password} />
     <input type="button" value="Register" on:click={registerUser}>
 </div>
+
+<style>
+    #register-wrapper {
+        display: flex;
+        flex-flow: column wrap;
+        justify-content: space-between;
+    }
+</style>
