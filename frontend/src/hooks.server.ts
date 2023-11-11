@@ -6,7 +6,7 @@ export const handle: Handle = async ({ event, resolve }) => {
     let apiKey = event.cookies.get("apiKey") as string;
 
     if (!apiKey && event.url.pathname != "/login")
-        throw redirect(302, "/login");
+        throw redirect(302, event.url.protocol + "//" + event.url.host + "/login");
 
 	return await resolve(event);
 };
