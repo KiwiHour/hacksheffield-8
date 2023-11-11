@@ -1,4 +1,4 @@
 <h1>Home Page</h1>
 
-<p>Calculate your </p>
+<p>Learn about your home's energy efficiency!</p>
 
