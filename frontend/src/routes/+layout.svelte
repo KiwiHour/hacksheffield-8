@@ -6,6 +6,7 @@
     let loadPage = false;
 
     onMount(async () => {
+        console.log("checking apikey")
         if (!["/login","/register"].includes(location.pathname)) {
             let apiKey = localStorage.getItem("apiKey")
             if (!apiKey) {
