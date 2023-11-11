@@ -4,18 +4,40 @@
     export let data: LayoutData;
 </script>
 
-<div id = "navbar"></div>
+<div id = "navbar">
+    <h1>
+    <ul>
+        <li>Home</li>
+        <li></li>
+        <li></li>
+    </ul>
+</div>
 
 <main>
     <slot />
 </main>
 
+<div id = "footer">
+
+</div>
+
 <style>
-    h1 {
+    :root {
+        --primary-colour: #ba1b1b;
+        --secondary-colour: #7d2626;
+        --tertiary-colour: #353047;
+        --dark-colour: #1c1e21;
+        --light-colour: #dcc9c9;
 
-        p {
+        box-sizing: border-box;
+    }
 
-        }
+    #header {
+
+    }
+
+    #footer {
+
     }
 </style>
 
