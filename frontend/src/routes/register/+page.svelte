@@ -1,8 +1,7 @@
 <script lang="ts">
     import CookieManager from "$lib/managers/CookieManager";
     import User from "$lib/managers/User";
-    import Cookies from "js-cookie";
-
+    
     let email: string;
     let password: string;
 

@@ -2,6 +2,8 @@
     import { onMount } from 'svelte';
     import type { LayoutData } from './$types';
     import { goto } from '$app/navigation';
+    import Link from '$lib/components/Link.svelte';
+    import { text } from '@sveltejs/kit';
     import CookieManager from '$lib/managers/CookieManager';
 
     export let data: LayoutData;
@@ -24,12 +26,12 @@
 {#if loadPage}
     <body>
         <div id = "header">
-            <button on:click = {() => goto("home")}><h1>Energy 2, Electric Boogaloo</h1></button>
-            <ul id = "navbar">
-                <li>Account</li>
-                <li>Login</li>
-                <li>Quiz</li>
-            </ul>
+            <Link path="home"><h1>Energy 2, Electric Boogaloo</h1></Link>
+            <div id = "navbar">
+                <Link path="account">Account</Link>
+                <Link path="login">Login</Link>
+                <Link path="quiz">Quiz</Link>
+            </div>
         </div>
 
         <main>
@@ -58,22 +60,38 @@
         flex-flow: row wrap;
         justify-content: space-between;
         background: var(--tertiary-colour);
-        color: var(--light-colour);
+        & button {
+            background: var(--tertiary-colour);
+            color: var(--light-colour);
+            border-right: 1px solid #2b273a;
+            border-left: 1px solid #2b273a;
+            border-top: 0px;
+            border-bottom: 0px;
+        }
     }
 
     #navbar {
         display: flex;
         flex-flow: row nowrap;
-        justify-content: space-around;
+        justify-content: flex-end;
         list-style-type: none;
         width: 30vw;
         font-size: 3vw;
+        & button {
+            float: left;
+            background: var(--tertiary-colour);
+            color: var(--light-colour);
+            border-right: 1px solid #2b273a;
+            border-left: 1px solid #2b273a;
+            border-top: 0px;
+            border-bottom: 0px;
+        }
     }
 
     #footer {
         display: flex;
         flex-flow: row wrap;
-        justify-content: space-between;
+        justify-content: center;
         background: var(--tertiary-colour);
         color: var(--light-colour);
     }
