@@ -15,3 +15,11 @@
     <p>Need an account?</p><br>
     <Link path="register">Register</Link>
 </div>
+
+<style>
+    #login-wrapper {
+        display: flex;
+        flex-flow: column wrap;
+        justify-content: space-between;
+    }
+</style>
