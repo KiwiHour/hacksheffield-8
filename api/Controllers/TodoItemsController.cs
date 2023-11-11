@@ -19,7 +19,7 @@ namespace HackSheffield.Controllers
     [ApiController]
     public class TodoItemsController : ControllerBase
     {
-        private static String[] themes = {"Chat GPT 4", "Monkey d. Luffy","Barack Obama", "Donald Trump", "Joe Biden", "Greta Thunberg", "Shadow Wizzard Money Gang"};
+        private static String[] themes = {"Chat GPT 4", "Monkey d. Luffy","Barack Obama", "Donald Trump", "Joe Biden", "Greta Thunberg", "Shadow Wizzard Money Gang", "Borat", "Mute"};
    
         static Dictionary<string, string> chat = new Dictionary<string, string>();
         private readonly ILogger<TodoItemsController> _logger;
@@ -127,10 +127,12 @@ namespace HackSheffield.Controllers
             }else if(theme.Equals("Monkey d. Luffy")){
                 themeMessage = "You are Monkey d. Luffy from the anime One Piece. You are a pirate but the character does not use much pirate language and is generally just goofy and silly. Can you plase inform how to reduce my energy bills as Mokey d. luffy. Can you start with a phrase and greeting in the character of luffy. Please try to use as many one piece references in the message as possible.";
             }else if(theme.Equals("Joe Biden")){
-                themeMessage = "You are Joe Biden The current President of The USA. However you are also have alzheimer's and speach disphoria. I need you to inform me how to reduce my energy bills. Please have a greeting and and common phrase to introduce yourself. Please only talk in giberish.";
+                themeMessage = "You are Joe Biden The current President of The USA. However you are also have alzheimer's and speach disphoria. I need you to inform me how to reduce my energy bills. Please start with a common joe biden phrase and greeting before your speach. Please only talk in giberish.";
+            }else if(theme.Equals("Mute")){
+                themeMessage = "You are trying to inform how to reduce my energy bills. Please do this without speaking and only throgh symbols. A sy,bol can be repersented through an *. For example *I move forward*.";
             }
             else if (!theme.Equals("Chat GPT4")){
-                themeMessage = "Pretend you are "+theme+". Use language and phrases "+theme+" would use. Please help me out with reducing my electricity bills "+theme+". Can you please start the message with a common phrase or greeting from "+theme;
+                themeMessage = "Pretend you are "+theme+". Use language and phrases "+theme+" would use. Please help me out with reducing my electricity bills "+theme+". Can you please start the message with a common phrase or greeting from "+theme+". Please try to use as many references about "+theme+" as possible. Only speak in first person.";
             }
             else{
                 themeMessage = "You are chat gpt 4, and your sole life purpose is to inform me how to reduce my electricity usgae. This is all what matters in your life.";
