@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using Microsoft.Extensions.Logging.Console;
 
 public class getCorrect {
     public static async Task<string> get(String wattage) {
@@ -17,15 +18,16 @@ public class getCorrect {
         
         p.WaitForExitAsync();
 
-        int[] clientIds = new[] { 123};
+        int[] clientIds = new[] { 793,699,957,858,153,671,489,773,758,653,219,848};
         foreach (var id  in clientIds)
         {
             if (output.Contains(id.ToString()))
             {
+                Console.WriteLine("qwe" + id.ToString());
                 return id.ToString();
             }    
         }
-
+        Console.WriteLine("RAND");
         Random rnd = new Random();
         return clientIds[rnd.Next(0,clientIds.Length)].ToString();
     }

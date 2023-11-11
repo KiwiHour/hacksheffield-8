@@ -30,8 +30,8 @@ public class User
         var command = DBConnection.connection.CreateCommand();
         command.CommandText =
         @"
-            SELECT (Id,Email,Quiz,Pred)
-            FROM Users WHERE (Key=$key)
+            SELECT Id,Email,Quiz,Pred
+            FROM Users WHERE Key = $key
         ";
         command.Parameters.AddWithValue("$key", key);
         User tmp = null;
@@ -92,7 +92,7 @@ public class User
             {
                 byte[] key = RandomNumberGenerator.GetBytes(128 / 8);
                 string keystr = Convert.ToBase64String(key);
-                
+                keystr = keystr.Replace("/", "ee");
                 command = DBConnection.connection.CreateCommand();
                 command.CommandText =
                     @"

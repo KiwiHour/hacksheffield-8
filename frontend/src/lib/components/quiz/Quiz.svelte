@@ -2,6 +2,7 @@
   import { onMount, beforeUpdate } from 'svelte';
     import Question from './Question.svelte';
     import { fly } from 'svelte/transition';
+    import ApiInterface from '$lib/managers/ApiInterface';
 
   let questions = ['Question 1', 'Question 2', 'Question 3'];
   let currentQuestion = 1;
@@ -10,6 +11,7 @@
     // Add any initialization logic here
   });
 
+  
 
   function handleSubmit() {
     // Add logic to handle submission
@@ -17,24 +19,61 @@
     
     currentQuestion += 1;
   }
-  function handleDish(n:number) {
-    if (selected[n] == 0) {
-      selected[n] = 1
+  function handleDish(n:number, device:string) {
+    if (selected[n] == "") {
+      selected[n] = device
     }
     else {
-      selected[n] = 0
+      selected[n] = ""
     }
     
   }
   function handleFinish() {
     console.log("send data");
+    let data = {
+      "devices in household":selected,
+      "Number of hours the aircon/heating is on per day": ac,
+      "Number of bedrooms in the house": b,
+      "Number of bulbs in the house": bn,
+      "The type of bulbs": l 
+    };
+    
+    // print(data);
+    console.log(data);
+    work(data);
+  }
+
+  async function work(body) {
+    console.log("here");
+    let fetchUrl = `http://localhost:5203/api/test/setQuiz?`
+
+        // Assign params if the user has an api key
+        
+            let params = new URLSearchParams({ key: "DmWwPaicIRGGnss7hN4rSA==" })
+            fetchUrl += params;
+        
+        let method = "post"
+        
+        let res = await fetch(fetchUrl, { method, body: JSON.stringify(body) });
+        
+  }
+  function handleBed(n:Number) {
+    b = n.toString();
+    handleSubmit();
+  }
+  function handleBulb(n:string) {
+    bn = n.toString();
+    handleSubmit();
   }
 
   // This variable is used to reset the x value before updating to trigger the transition
   let x = 0;
 
-  let selected = [0,0,0,0,0,0,0];
-  let ac:string = 0;
+  let selected = ["","","","","",""];
+  let ac = "0";
+  let l = "Mixed";
+  let b = "0"
+  let bn = "0"
 </script>
 
 <main>
@@ -100,21 +139,25 @@
     {#if currentQuestion == 5}
     <div in:fly={{y:-1000, duration: 500}} out:fly={{y:1000, duration: 500}} class="question">
       <h1>Number of lights</h1>
+      <h3>{l} lights</h3>
+      <input type="range" id="volume" name="volume" min="0" max="30" value="0" style="width:100%" on:mousemove={(item) => {l = item.currentTarget.value}} />
+      <button class="button-9" on:click={() => {handleFinish()}} style="width: 40%">Submit</button>
     </div>
     {/if}
     {#if currentQuestion == 4}
-    <div in:fly={{y:-1000, duration: 500}} out:fly={{y:1000, duration: 500}}>
+    <div in:fly={{y:-1000, duration: 500}} out:fly={{y:1000, duration: 500}} class="question">
       <h1>Types of light fittings</h1>
       <tr>
-        <rd><button class="button-9" on:click={handleSubmit}>1 Bed</button></rd>
+        <rd><button class="button-9" on:click={() => {handleBulb("Incandescent")}}>Incandescent Bulbs</button></rd>
       
-        <rd><button class="button-9"on:click={handleSubmit}>2 Bed</button></rd>
+        <rd><button class="button-9"on:click={() => {handleBulb("halogen")}}>Halogen</button></rd>
       </tr>
       <tr>
-        <rd><button class="button-9"on:click={handleSubmit}>3 Bed</button></rd>
+        <rd><button class="button-9"on:click={() => {handleBulb("LEDs")}}>LEDs</button></rd>
       
-        <rd><button class="button-9"on:click={handleSubmit}>4 Bed</button></rd>
+        <rd><button class="button-9"on:click={() => {handleBulb("Mixture")}}>Mixture</button></rd>
       </tr>
+      
     </div>
     {/if}
     {#if currentQuestion == 3}
@@ -122,6 +165,7 @@
       <h1>How many hours a day is the heating/air conditioning running</h1>
       <h3>{ac} hours</h3>
       <input type="range" id="volume" name="volume" min="0" max="24" value="0" style="width:100%" on:mousemove={(item) => {ac = item.currentTarget.value}} />
+      <button class="button-9" on:click={() => {handleSubmit()}} style="width: 40%">Submit</button>
     </div>
     {/if}
     {#if currentQuestion == 2}
@@ -130,19 +174,19 @@
 
       <table style="width:100vw">
         <tr>
-          <rd><button class="button-9" on:click={() => {handleDish(0)}}>Refridgerator {#if selected[0] == 1}tick{/if}</button></rd>
+          <rd><button class="button-9" on:click={() => {handleDish(0, "Refriderator")}}>Refridgerator {#if selected[0] != ""}tick{/if}</button></rd>
         
-          <rd><button class="button-9" on:click={() => {handleDish(1)}}>Washing Machine {#if selected[1] == 1}tick{/if}</button></rd>
+          <rd><button class="button-9" on:click={() => {handleDish(1, "Washing Machine")}}>Washing Machine {#if selected[1] != ""}tick{/if}</button></rd>
         </tr>
         <tr>
-          <rd><button class="button-9" on:click={() => {handleDish(2)}}>Dishwasher {#if selected[2] == 1}tick{/if}</button></rd>
+          <rd><button class="button-9" on:click={() => {handleDish(2, "Dishwasher")}}>Dishwasher {#if selected[2] != ""}tick{/if}</button></rd>
         
-          <rd><button class="button-9" on:click={() => {handleDish(3)}}>Dryer {#if selected[3] == 1}tick{/if}</button></rd>
+          <rd><button class="button-9" on:click={() => {handleDish(3, "Tumble Dryer")}}>Dryer {#if selected[3] != ""}tick{/if}</button></rd>
         </tr>
         <tr>
-          <rd><button class="button-9" on:click={() => {handleDish(4)}}>Gaming Console {#if selected[4] == 1}tick{/if}</button></rd>
+          <rd><button class="button-9" on:click={() => {handleDish(4, "Powerful Gaming Console")}}>Gaming Console {#if selected[4] != ""}tick{/if}</button></rd>
         
-          <rd><button class="button-9" on:click={() => {handleDish(5)}}>Desktop Computer {#if selected[5] == 1}tick{/if}</button></rd>
+          <rd><button class="button-9" on:click={() => {handleDish(5, "Powerful desktop computer")}}>Desktop Computer {#if selected[5] != ""}tick{/if}</button></rd>
         </tr>
         <tr>
           <button class="button-9" on:click={() => {handleSubmit()}} style="width: 40%">Submit</button>
@@ -156,29 +200,22 @@
       <h1 style="text-align: center; font-family: Arial, Helvetica, sans-serif;">How big is your house?</h1>
       <table style="width:100vw">
         <tr>
-          <rd><button class="button-9" on:click={handleSubmit}>1 Bed</button></rd>
+          <rd><button class="button-9" on:click={() => {handleBed(1)}}>1 Bed</button></rd>
         
-          <rd><button class="button-9"on:click={handleSubmit}>2 Bed</button></rd>
+          <rd><button class="button-9"on:click={() => {handleBed(2)}}>2 Bed</button></rd>
         </tr>
         <tr>
-          <rd><button class="button-9"on:click={handleSubmit}>3 Bed</button></rd>
+          <rd><button class="button-9"on:click={() => {handleBed(3)}}>3 Bed</button></rd>
         
-          <rd><button class="button-9"on:click={handleSubmit}>4 Bed</button></rd>
+          <rd><button class="button-9"on:click={() => {handleBed(4)}}>4 Bed</button></rd>
         </tr>
         <tr>
-          <rd><button class="button-9"on:click={handleSubmit}>5 Bed</button></rd>
+          <rd><button class="button-9"on:click={() => {handleBed(5)}}>5 Bed</button></rd>
         
-          <rd><button class="button-9"on:click={handleSubmit}>6+ Bed</button></rd>
+          <rd><button class="button-9"on:click={() => {handleBed(6)}}>6+ Bed</button></rd>
         </tr>
       </table>
     </div>
     {/if}
   </div>
-  
-
-  {#if currentQuestion != 5}
-  
-  {:else}
-  <button on:click={handleFinish}>Submit</button>
-  {/if}
 </main>

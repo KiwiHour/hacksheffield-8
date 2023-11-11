@@ -4,4 +4,4 @@
 
     export let data: PageData;
 </script>
-<Quiz data={data}></Quiz>
+<Quiz></Quiz>

@@ -12,9 +12,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.IO;
 using System.Reflection;
+using System.Text;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using NuGet.Protocol.Plugins;
 using System.Text.RegularExpressions;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 namespace HackSheffield.Controllers
 {
     [Route("api/test")]
@@ -22,7 +24,6 @@ namespace HackSheffield.Controllers
     public class TodoItemsController : ControllerBase
     {
         private static String[] themes = {"Chat GPT 4", "Monkey d. Luffy","Barack Obama", "Donald Trump", "Joe Biden", "Greta Thunberg", "Shadow Wizzard Money Gang", "Borat", "Mute"};
-        private String estimatedWattage = "";
         static Dictionary<string, string> chat = new Dictionary<string, string>();
         private readonly ILogger<TodoItemsController> _logger;
         public TodoItemsController(ILogger<TodoItemsController> logger)
@@ -58,14 +59,15 @@ namespace HackSheffield.Controllers
         [Route("getChat/{chatId}")]
         public async Task<ActionResult<string>> Get([FromRoute] String chatId)
         {
-            return chat[chatId] + "Estimated wattage = ";
+            return chat[chatId];
         }
         
-        [HttpGet]
-        [Route("calcWatts/{data}/{data1}/{data2}")]
-        public async Task<ActionResult<string>> Get([FromRoute] String data, [FromRoute] String data1, [FromRoute] String data2)
+        // [HttpGet]
+        // [Route("calcWatts/{data}/{data1}/{data2}")]
+        public async Task<string> CalcWatts(String data)
         {
-            Watts(data, "One person uses a microwave 3 hours per day");
+            // Watts(data, "One person uses a microwave 3 hours per day");
+            String estimatedWattage = await Watts(data);
             string pattern = "-----([0-9]+(?:.[0-9]+)?)-----";
             Match match = Regex.Match(estimatedWattage, pattern);
 
@@ -76,7 +78,7 @@ namespace HackSheffield.Controllers
             else{
                 extractedNumber = "Failure";
             }
-            return extractedNumber+"     "+estimatedWattage;
+            return extractedNumber;
         }
 
 
@@ -87,10 +89,13 @@ namespace HackSheffield.Controllers
             return TodoItem.insert(name);
         }
         
-        [HttpGet]
+        [HttpPost]
         [Route("setQuiz")]
-        public async Task<ActionResult<string>> Quiz([FromBody] String content, [FromQuery] String key)
+        public async Task<ActionResult<string>> Quiz([FromQuery] String key)
         {
+            StreamReader reader = new StreamReader(Request.Body, Encoding.UTF8);
+            
+                string content = await reader.ReadToEndAsync();
             // Thread t = new Thread(new ThreadStart(AI(saltstr)));
             User us = Models.User.getByKey(key);
             if (us == null)
@@ -99,9 +104,12 @@ namespace HackSheffield.Controllers
             }
 
             Models.User.addQuiz(us.Email, content);
-            // calculate wattage
-            Py(us,"700");
-
+            String num = await CalcWatts(content);
+            Console.WriteLine(num);
+            Py(us,num);
+            us = Models.User.getByKey(key);
+            Console.WriteLine(us.Pred);
+            return us.Pred;
         }
 
         
@@ -118,9 +126,6 @@ namespace HackSheffield.Controllers
             return GetCsv.get();
         }
         
-
-        [HttpGet]
-        [Route("ai")]
         public async void AI(String chatId, String input, String theme)
         {
             OpenAIClient client = new OpenAIClient(GetKey.getKey());
@@ -179,9 +184,10 @@ namespace HackSheffield.Controllers
         
         [HttpGet]
         [Route("watts")]
-        public async void Watts(String chatId, String info)
+        public async Task<String> Watts(String info)
         {
             OpenAIClient client = new OpenAIClient(GetKey.getKey());
+            String estimatedWattage = "";
             // Response<Completions> response = await client.GetCompletionsAsync(new CompletionsOptions()
             // {
             //     DeploymentName = "text-davinci-003", // assumes a matching model deployment or model name
@@ -193,7 +199,7 @@ namespace HackSheffield.Controllers
             //     return (choice.Text);
             // }
 
-            info = "Uses microwave 24hrs a day";
+            // info = "Uses microwave 24hrs a day";
             var chatCompletionsOptions = new ChatCompletionsOptions()
             {
                 DeploymentName = "gpt-3.5-turbo", // Use DeploymentName for "model" with non-Azure clients
@@ -219,6 +225,7 @@ namespace HackSheffield.Controllers
                     estimatedWattage += (chatUpdate.ContentUpdate);
                 }
             }
+            return estimatedWattage;
 
         }
     }
