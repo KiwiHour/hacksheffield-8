@@ -2,8 +2,6 @@
     import { onMount } from 'svelte';
     import { goto } from '$app/navigation';
     import Link from '$lib/components/Link.svelte';
-    import { text } from '@sveltejs/kit';
-    import CookieManager from '$lib/managers/CookieManager';
 
     let loadPage = false;
 
