@@ -12,4 +12,5 @@ dotnet /home/helloworld/hacksheffield-8-main/api/bin/Release/net7.0/HackSheffiel
 
 cd ..
 cd frontend
-npm run build
+sudo npm install
+sudo npm run build
