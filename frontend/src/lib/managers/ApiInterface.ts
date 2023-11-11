@@ -9,8 +9,6 @@ export default abstract class ApiInterface {
             let params = new URLSearchParams({ key: this.apiKey })
             fetchUrl += params;
         }
-
-        console.log(JSON.stringify(body))
         
         let res = await fetch(fetchUrl, { method, body: JSON.stringify(body) });
         return await res.json();
