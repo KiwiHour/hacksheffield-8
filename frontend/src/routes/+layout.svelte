@@ -31,9 +31,11 @@
 {#if loadPage}
     <div id="wrapper">
         <div id = "header">
-            <Link path="/"><h1>Wattage.Compare</h1></Link>
+            <Link path="/"><h1>Wattage.Compare</h1>
+            </Link>
+            
             <div id = "navbar" style="font-size:2rem !important" >
-
+                <img src="logo.png" style="height:7vh"/>
                 {#if loggedIn}
                 <Link path="dashboard">Dashboard</Link>
                 <Link path="logout">Logout</Link>
