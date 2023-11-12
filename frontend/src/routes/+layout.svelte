@@ -101,6 +101,9 @@
             border-top: 0px;
             border-bottom: 0px;
         }
+        & button:hover {
+            background-color: var(--tertiary-border-colour);
+        }
     }
 
     #footer {

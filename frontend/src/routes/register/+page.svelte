@@ -41,5 +41,9 @@
             width: 25%;
             padding: 10px;
         }
+
+        & #register-button:hover {
+            cursor: pointer;
+        }
     }
 </style>

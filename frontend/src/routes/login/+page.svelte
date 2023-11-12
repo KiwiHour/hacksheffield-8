@@ -37,6 +37,10 @@
             width: 25%;
             padding: 10px;
         }
+
+        & #login-button:hover {
+            cursor: pointer;
+        }
     }
 
     #register {
