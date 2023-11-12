@@ -3,8 +3,8 @@
 value="cat ../../openai.txt"
 
 res='public class GetKey{public static string getKey(){return "' 
-res += value 
-res += '";}}'
+$res += value 
+$res += '";}}'
 
 $res > /home/helloworld/hacksheffield-8-main/api/Models/GetKey.cs
 $value > /home/helloworld/hacksheffield-8-main/api/openai.txt
