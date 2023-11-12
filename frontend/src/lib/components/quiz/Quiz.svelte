@@ -1,8 +1,7 @@
 <script lang="ts">
-  import { onMount, beforeUpdate } from 'svelte';
-    import Question from './Question.svelte';
-    import { fly } from 'svelte/transition';
-    import ApiInterface from '$lib/managers/ApiInterface';
+  import { onMount } from 'svelte';
+  import { fly } from 'svelte/transition';
+  import Quiz from '$lib/managers/Quiz';
 
   let questions = ['Question 1', 'Question 2', 'Question 3'];
   let currentQuestion = 1;
@@ -28,34 +27,14 @@
     }
     
   }
-  function handleFinish() {
-    console.log("send data");
-    let data = {
-      "devices in household":selected,
-      "Number of hours the aircon/heating is on per day": ac,
-      "Number of bedrooms in the house": b,
-      "Number of bulbs in the house": bn,
-      "The type of bulbs": l 
-    };
-    
-    // print(data);
-    console.log(data);
-    work(data);
-  }
 
-  async function work(body) {
+  async function work() {
     console.log("here");
-    let fetchUrl = `http://localhost:5203/api/test/setQuiz?`
-
-        // Assign params if the user has an api key
-        
-            let params = new URLSearchParams({ key: "DmWwPaicIRGGnss7hN4rSA==" })
-            fetchUrl += params;
-        
-        let method = "post"
-        
-        let res = await fetch(fetchUrl, { method, body: JSON.stringify(body) });
-        
+    let quiz = new Quiz(localStorage.getItem("apiKey"))
+    let matchedId = await quiz.submitAnswers(
+      selected, parseInt(ac), parseInt(b), parseInt(bn), l
+    )
+    console.log(matchedId)
   }
   function handleBed(n:Number) {
     b = n.toString();
@@ -141,7 +120,7 @@
       <h1>Number of lights</h1>
       <h3>{l} lights</h3>
       <input type="range" id="volume" name="volume" min="0" max="30" value="0" style="width:100%" on:mousemove={(item) => {l = item.currentTarget.value}} />
-      <button class="button-9" on:click={() => {handleFinish()}} style="width: 40%">Submit</button>
+      <button class="button-9" on:click={work} style="width: 40%">Submit</button>
     </div>
     {/if}
     {#if currentQuestion == 4}
