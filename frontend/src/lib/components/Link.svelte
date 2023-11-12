@@ -12,7 +12,8 @@
 <button on:click={gotoAndRefresh}><slot /></button>
 
 <style>
-    button:hover {
-        cursor: pointer;
+    button {
+        padding: 10px;
+        width: 40%;
     }
 </style>

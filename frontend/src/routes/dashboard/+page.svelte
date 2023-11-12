@@ -95,7 +95,7 @@
 />
 <main style="display:flex; flex-wrap:false">
     <div
-        style="width:66% ;border: 3px solid black; height:80vh; position:relative"
+        style="width:66% ;border: 3px solid black; height:80vh; position:relative; display:flex; flex-direction:column;"
     >
         <div>
             <Button
@@ -120,8 +120,8 @@
                 {/each}
             </Dropdown>
         </div>
-        <div id="chatbox">
-            <div class="flex flex-col mt-5">
+        <div id="chatbox" style="display:flex; flex-direction: column; height: auto;">
+            <div class="flex flex-col mt-5" style="overflow-y: scroll; flex-grow: 1; height:55vh">
                 {#key chatBoxEntries}
                     {#each chatBoxEntries as chatBoxEntry}
                         <ChatBoxEntry content={chatBoxEntry.content} user={chatBoxEntry.type=="question"} typing={chatBoxEntry.typing}/>
