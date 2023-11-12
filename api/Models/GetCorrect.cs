@@ -23,7 +23,7 @@ public class getCorrect {
         {
             if (output.Contains(id.ToString()))
             {
-                Console.WriteLine("qwe" + id.ToString());
+                Console.WriteLine("qwe" + (id/10).ToString());
                 return id.ToString();
             }    
         }

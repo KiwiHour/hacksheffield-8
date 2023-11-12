@@ -2,6 +2,7 @@
   import { onMount, beforeUpdate } from 'svelte';
     import Question from './Question.svelte';
     import { fly } from 'svelte/transition';
+    import Loader from './Loader.svelte';
     import ApiInterface from '$lib/managers/ApiInterface';
 
   let questions = ['Question 1', 'Question 2', 'Question 3'];
@@ -37,7 +38,7 @@
       "Number of bulbs in the house": bn,
       "The type of bulbs": l 
     };
-    
+    currentQuestion++;
     // print(data);
     console.log(data);
     work(data);
@@ -55,7 +56,7 @@
         let method = "post"
         
         let res = await fetch(fetchUrl, { method, body: JSON.stringify(body) });
-        
+        currentQuestion++;
   }
   function handleBed(n:Number) {
     b = n.toString();
@@ -136,6 +137,12 @@
   </style>
   <div style="">
     <h1></h1>
+    {#if currentQuestion == 7}
+      <h1>Done</h1>
+    {/if}
+    {#if currentQuestion == 6}
+      <Loader></Loader>
+    {/if}
     {#if currentQuestion == 5}
     <div in:fly={{y:-1000, duration: 500}} out:fly={{y:1000, duration: 500}} class="question">
       <h1>Number of lights</h1>

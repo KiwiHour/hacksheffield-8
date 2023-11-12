@@ -24,9 +24,14 @@
         <div id = "header">
             <Link path=""><h1>Wattage Wizard</h1></Link>
             <div id = "navbar">
+
+                {#if localStorage.getItem("apiKey")}
+                <Link path="dashboard">Dashboard</Link>
                 <Link path="account">Account</Link>
+                {:else}
                 <Link path="login">Login</Link>
-                <Link path="quiz">Quiz</Link>
+                {/if}
+                <!-- <Link path="quiz">Quiz</Link> -->
             </div>
         </div>
     
