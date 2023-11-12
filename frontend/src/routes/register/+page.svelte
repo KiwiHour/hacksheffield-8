@@ -9,7 +9,7 @@
         let user = new User(null, email, password);
         let apiKey = await user.register() as string;
         localStorage.setItem("apiKey", apiKey)
-        await goto("/login")
+        await goto("/quiz")
     }
 
 </script>

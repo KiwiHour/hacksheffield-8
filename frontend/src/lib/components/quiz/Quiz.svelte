@@ -5,6 +5,7 @@
     import Loader from './Loader.svelte';
     import ApiInterface from '$lib/managers/ApiInterface';
   import Quiz from '$lib/managers/Quiz';
+    import { goto } from '$app/navigation';
 
   let questions = ['Question 1', 'Question 2', 'Question 3'];
   let currentQuestion = 1;
@@ -34,10 +35,12 @@
   async function work() {
     console.log("here");
     let quiz = new Quiz(localStorage.getItem("apiKey"))
+    currentQuestion+=1;
     let matchedId = await quiz.submitAnswers(
       selected, parseInt(ac), parseInt(b), parseInt(bn), l
     )
     console.log(matchedId)
+    goto("/dashboard")
   }
   function handleBed(n:Number) {
     b = n.toString();
@@ -135,6 +138,7 @@
     {#if currentQuestion == 4}
     <div in:fly={{y:-1000, duration: 500}} out:fly={{y:1000, duration: 500}} class="question">
       <h1>Types of light fittings</h1>
+      <table style="width:100vw">
       <tr>
         <rd><button class="button-9" on:click={() => {handleBulb("Incandescent")}}>Incandescent Bulbs</button></rd>
       
@@ -145,7 +149,7 @@
       
         <rd><button class="button-9"on:click={() => {handleBulb("Mixture")}}>Mixture</button></rd>
       </tr>
-      
+    </table>
     </div>
     {/if}
     {#if currentQuestion == 3}
@@ -162,19 +166,19 @@
 
       <table style="width:100vw">
         <tr>
-          <rd><button class="button-9" on:click={() => {handleDish(0, "Refriderator")}}>Refridgerator {#if selected[0] != ""}tick{/if}</button></rd>
+          <rd><button class="button-9" on:click={() => {handleDish(0, "Refriderator")}}>Refridgerator {#if selected[0] != ""}✓{/if}</button></rd>
         
-          <rd><button class="button-9" on:click={() => {handleDish(1, "Washing Machine")}}>Washing Machine {#if selected[1] != ""}tick{/if}</button></rd>
+          <rd><button class="button-9" on:click={() => {handleDish(1, "Washing Machine")}}>Washing Machine {#if selected[1] != ""}✓{/if}</button></rd>
         </tr>
         <tr>
-          <rd><button class="button-9" on:click={() => {handleDish(2, "Dishwasher")}}>Dishwasher {#if selected[2] != ""}tick{/if}</button></rd>
+          <rd><button class="button-9" on:click={() => {handleDish(2, "Dishwasher")}}>Dishwasher {#if selected[2] != ""}✓{/if}</button></rd>
         
-          <rd><button class="button-9" on:click={() => {handleDish(3, "Tumble Dryer")}}>Dryer {#if selected[3] != ""}tick{/if}</button></rd>
+          <rd><button class="button-9" on:click={() => {handleDish(3, "Tumble Dryer")}}>Dryer {#if selected[3] != ""}✓{/if}</button></rd>
         </tr>
         <tr>
-          <rd><button class="button-9" on:click={() => {handleDish(4, "Powerful Gaming Console")}}>Gaming Console {#if selected[4] != ""}tick{/if}</button></rd>
+          <rd><button class="button-9" on:click={() => {handleDish(4, "Powerful Gaming Console")}}>Gaming Console {#if selected[4] != ""}✓{/if}</button></rd>
         
-          <rd><button class="button-9" on:click={() => {handleDish(5, "Powerful desktop computer")}}>Desktop Computer {#if selected[5] != ""}tick{/if}</button></rd>
+          <rd><button class="button-9" on:click={() => {handleDish(5, "Powerful desktop computer")}}>Desktop Computer {#if selected[5] != ""}✓{/if}</button></rd>
         </tr>
         <tr>
           <button class="button-9" on:click={() => {handleSubmit()}} style="width: 40%">Submit</button>

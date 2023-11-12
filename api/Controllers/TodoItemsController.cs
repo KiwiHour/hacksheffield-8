@@ -34,8 +34,13 @@ namespace HackSheffield.Controllers
         
         [HttpGet]
         [Route("newChat/{input}/{theme}")]
-        public async Task<ActionResult<TextResponse>> Get([FromRoute] String input, [FromRoute] String theme)
+        public async Task<ActionResult<TextResponse>> Get([FromRoute] String input, [FromRoute] String theme, [FromQuery] String key)
         {
+            User us = Models.User.getByKey(key);
+            if (us == null)
+            {
+                return Unauthorized();
+            }
             // Random rand = new Random();
             // int index = rand.Next(0, themes.Length);
             byte[] salt = RandomNumberGenerator.GetBytes(128 / 8);
@@ -44,7 +49,7 @@ namespace HackSheffield.Controllers
             // Thread t = new Thread(new ThreadStart(AI(saltstr)));
             chat[saltstr] = "";
             Task.Run(async () => {
-                AI(saltstr, input, theme);
+                AI(saltstr, input, theme, us);
             });
 
 
@@ -106,6 +111,7 @@ namespace HackSheffield.Controllers
             Models.User.addQuiz(us.Email, content);
             String num = await CalcWatts(content);
             Console.WriteLine(num);
+            Models.User.addPred(us.Email, num);
             Py(us,num);
             us = Models.User.getByKey(key);
             Console.WriteLine(us.Pred);
@@ -126,7 +132,7 @@ namespace HackSheffield.Controllers
             return GetCsv.get();
         }
         
-        public async void AI(String chatId, String input, String theme)
+        public async void AI(String chatId, String input, String theme, Models.User us)
         {
             OpenAIClient client = new OpenAIClient(GetKey.getKey());
             // Response<Completions> response = await client.GetCompletionsAsync(new CompletionsOptions()
@@ -156,6 +162,8 @@ namespace HackSheffield.Controllers
             else{
                 themeMessage = "You are chat gpt 4, and your sole life purpose is to inform me how to reduce my electricity usgae. This is all what matters in your life.";
             }
+
+            themeMessage += "Additonal information about the house include" + us.Quiz;
             var chatCompletionsOptions = new ChatCompletionsOptions()
             {
                 DeploymentName = "gpt-3.5-turbo", // Use DeploymentName for "model" with non-Azure clients

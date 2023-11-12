@@ -15,6 +15,8 @@ public class User
     
     public string Pred { get; set; }
     
+    public string PredUse{ get; set; }
+    
     
 
     public int PredictedClientId { get; set; }
@@ -30,7 +32,7 @@ public class User
         var command = DBConnection.connection.CreateCommand();
         command.CommandText =
         @"
-            SELECT Id,Email,Quiz,Pred
+            SELECT Id,Email,Quiz,Pred,pp
             FROM Users WHERE Key = $key
         ";
         command.Parameters.AddWithValue("$key", key);
@@ -42,11 +44,15 @@ public class User
                 tmp = new User(reader.GetInt64(0), reader.GetString(1));
                 if (!reader.IsDBNull(2))
                 {
-                    tmp.Pred = reader.GetString(2);
+                    tmp.Quiz = reader.GetString(2);
                 }
                 if (!reader.IsDBNull(3))
                 {
                     tmp.Pred = reader.GetString(3);
+                }
+                if (!reader.IsDBNull(4))
+                {
+                    tmp.PredUse = reader.GetString(4);
                 }
             }
         }
@@ -140,6 +146,19 @@ public class User
         ";
         command.Parameters.AddWithValue("$email", email);
         command.Parameters.AddWithValue("$quiz", reizResult);
+        command.ExecuteNonQuery();
+        return true;
+    }
+    
+    public static bool addPred(String email, String pp)
+    {
+        var command = DBConnection.connection.CreateCommand();
+        command.CommandText =
+            @"
+            UPDATE Users SET pp=$pp WHERE email=$email
+        ";
+        command.Parameters.AddWithValue("$email", email);
+        command.Parameters.AddWithValue("$pp", pp);
         command.ExecuteNonQuery();
         return true;
     }
