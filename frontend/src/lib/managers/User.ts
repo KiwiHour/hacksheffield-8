@@ -17,7 +17,7 @@ export default class User extends ApiInterface {
 
     async login() {
         console.log(this.email, this.password)
-        let { data: apiKey } = await this.apiFetch("user/auth", "post", { email: this.email, password: this.password })
+        let { data: apiKey } = await this.apiFetch("user/login", "post", { email: this.email, password: this.password })
         return apiKey;
     }
 }

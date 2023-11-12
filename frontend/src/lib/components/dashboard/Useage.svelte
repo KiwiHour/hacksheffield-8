@@ -7,6 +7,9 @@
 
     async function load() {
         PU = (await us.get())['predUse'];
+        if (PU == "Failure") {
+            PU = "loading.."
+        }
     }
     
     load();
@@ -14,8 +17,8 @@
 </script>
 <div>
     <p>Your predicted useage:</p>
-    <div style="width:100%; background-color:light-gray; border-radius:30px">
+    <!-- <div style="width:100%; background-color:light-gray; border-radius:30px"> -->
         <h1>{PU}</h1><p>WATTS</p>
-    </div>
-    <p>Powered by generative AI</p>
+    <!-- </div> -->
+    <p>(Powered by generative AI)</p>
 </div>
