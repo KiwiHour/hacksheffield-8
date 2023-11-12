@@ -4,10 +4,11 @@ value=$(cat ../../openai.txt)
 
 res="public class GetKey{public static string getKey(){return \"$value\";}}"
 
-echo $res
-
-echo $res >> /home/helloworld/hacksheffield-8-main/api/Models/GetKey.cs
-echo $value > /home/helloworld/hacksheffield-8-main/api/openai.txt
+# echo "hello" > qwe.txt
+rm -rf Models/GetKey.cs
+rm -rf openai.txt
+echo $res > Models/GetKey.cs
+echo $value > openai.txt
 
 cd /home/helloworld/hacksheffield-8-main
 killall dotnet
