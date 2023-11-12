@@ -13,5 +13,6 @@
 
 </script>
 <h1>
-    InternalID: {internalID}
+    SolarZero/HeatIO Best Match for User ID: {internalID}
+    <img src="logo.png"  style="width:50%;"/>
 </h1>
