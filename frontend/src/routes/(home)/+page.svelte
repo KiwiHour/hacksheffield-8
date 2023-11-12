@@ -10,6 +10,10 @@
 
     <h2>Learn about your home's energy efficiency through the power of AI!</h2>
 
+    <p>(The application only works on Desktop)</p>
+
+    <p></p>
+
     <Link path="login"> Login</Link>
 </div>
 
