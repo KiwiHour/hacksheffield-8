@@ -10,9 +10,3 @@
 </script>
 
 <button on:click={gotoAndRefresh}><slot /></button>
-
-<style>
-    button:hover {
-        cursor: pointer;
-    }
-</style>
