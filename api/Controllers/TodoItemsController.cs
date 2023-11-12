@@ -151,7 +151,7 @@ namespace HackSheffield.Controllers
                 themeMessage = "You are trying to inform how to reduce my energy bills. Please do this without speaking and only throgh symbols. A sy,bol can be repersented through an *. For example *I move forward*.";
             }
             else if (!theme.Equals("Chat GPT4")){
-                themeMessage = "Pretend you are "+theme+". Use language and phrases "+theme+" would use. Please help me out with reducing my electricity bills "+theme+". Can you please start the message with a common phrase or greeting from "+theme+". Please try to use as many references about "+theme+" as possible. Only speak in first person.";
+                themeMessage = "Pretend you are "+theme+". Use language and phrases "+theme+" would use. Please help me out with reducing my electricity bills "+theme+". Can you please start the message with a common phrase or greeting from "+theme+". Please try to use as many references about "+theme+" as possible. Only speak in first person. Please be reasonably concise. ";
             }
             else{
                 themeMessage = "You are chat gpt 4, and your sole life purpose is to inform me how to reduce my electricity usgae. This is all what matters in your life.";
