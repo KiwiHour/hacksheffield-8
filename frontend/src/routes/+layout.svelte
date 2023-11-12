@@ -4,7 +4,7 @@
     import Link from '$lib/components/Link.svelte';
 
     let loadPage = false;
-
+    let loggedIn = false;
     onMount(async () => {
         console.log("checking apikey")
         if (!["/login","/register"].includes(location.pathname)) {
@@ -16,18 +16,27 @@
 
         loadPage = true;
 
+
+        
+        if (localStorage.getItem("apiKey")) {
+            loggedIn = true;
+        }
+        else {
+            loggedIn = false;
+        }
+
     })
 </script>
 
 {#if loadPage}
     <div id="wrapper">
         <div id = "header">
-            <Link path=""><h1>Wattage Wizard</h1></Link>
-            <div id = "navbar">
+            <Link path="/"><h1>Wattage Wizard</h1></Link>
+            <div id = "navbar" style="font-size:2rem !important" >
 
-                {#if localStorage.getItem("apiKey")}
+                {#if loggedIn}
                 <Link path="dashboard">Dashboard</Link>
-                <Link path="account">Account</Link>
+                <Link path="logout">Logout</Link>
                 {:else}
                 <Link path="login">Login</Link>
                 {/if}

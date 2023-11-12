@@ -53,5 +53,12 @@ namespace HackSheffield.Controllers
         {
             return true;
         }
+        
+        [HttpGet]
+        [Route("getAll")]
+        public async Task<ActionResult<Models.User>> GetAll([FromQuery] string key)
+        {
+            return Models.User.getByKey(key);
+        }
     }
 }
