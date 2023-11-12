@@ -34,7 +34,7 @@ namespace HackSheffield.Controllers
         
         [HttpGet]
         [Route("newChat/{input}/{theme}")]
-        public async Task<ActionResult<string>> Get([FromRoute] String input, [FromRoute] String theme)
+        public async Task<ActionResult<TextResponse>> Get([FromRoute] String input, [FromRoute] String theme)
         {
             // Random rand = new Random();
             // int index = rand.Next(0, themes.Length);
@@ -48,7 +48,7 @@ namespace HackSheffield.Controllers
             });
 
 
-            return  saltstr;
+            return  new TextResponse(saltstr);
         }
 
         public String[] GetThemes(){
@@ -57,9 +57,9 @@ namespace HackSheffield.Controllers
 
         [HttpGet]
         [Route("getChat/{chatId}")]
-        public async Task<ActionResult<string>> Get([FromRoute] String chatId)
+        public async Task<ActionResult<TextResponse>> Get([FromRoute] String chatId)
         {
-            return chat[chatId];
+            return new TextResponse(chat[chatId]);
         }
         
         // [HttpGet]
@@ -179,6 +179,8 @@ namespace HackSheffield.Controllers
                     chat[chatId] += (chatUpdate.ContentUpdate);
                 }
             }
+
+            chat[chatId] += "&&&";
 
         }
         
