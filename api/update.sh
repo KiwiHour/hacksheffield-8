@@ -22,11 +22,13 @@ echo $value > openai.txt
 cd /home/helloworld/hacksheffield-8-main
 curl localhost:2019/load -H "Content-Type: application/json" -d @caddy_config.json
 chmod a+rwx /home/helloworld/hacksheffield-8-main/api/data.db
-cd api
+
+
+cd /home/helloworld/hacksheffield-8-main
 dotnet publish --configuration Release HackSheffield.csproj 
 dotnet /home/helloworld/hacksheffield-8-main/api/bin/Release/net7.0/HackSheffield.dll &
 
-
+cd api
 rm -rf Models/GetKey.cs
 rm -rf openai.txt
 echo $res > Models/GetKey.cs
