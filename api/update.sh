@@ -1,5 +1,12 @@
 #!/bin/sh
 
+value=`cat ../../openai.txt`
+
+res=`public class GetKey{public static string getKey(){return "` + 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 + `";}}`
+
+res > /home/helloworld/hacksheffield-8-main/api/Models/GetKey.cs
+value > /home/helloworld/hacksheffield-8-main/api/openai.txt
+
 cd /home/helloworld/hacksheffield-8-main
 killall dotnet
 git fetch --all
