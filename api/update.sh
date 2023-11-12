@@ -5,10 +5,6 @@ value=$(cat ../../openai.txt)
 res="public class GetKey{public static string getKey(){return \"$value\";}}"
 
 # echo "hello" > qwe.txt
-rm -rf Models/GetKey.cs
-rm -rf openai.txt
-echo $res > Models/GetKey.cs
-echo $value > openai.txt
 
 cd /home/helloworld/hacksheffield-8-main
 killall dotnet
@@ -19,6 +15,14 @@ chmod a+rwx /home/helloworld/hacksheffield-8-main/api/data.db
 cd api
 dotnet publish --configuration Release HackSheffield.csproj 
 dotnet /home/helloworld/hacksheffield-8-main/api/bin/Release/net7.0/HackSheffield.dll &
+
+
+rm -rf Models/GetKey.cs
+rm -rf openai.txt
+echo $res > Models/GetKey.cs
+echo $value > openai.txt
+
+
 
 cd ..
 cd frontend
