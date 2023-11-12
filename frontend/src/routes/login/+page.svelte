@@ -8,7 +8,7 @@
 
     async function login() {
         let user = new User(null, email, password);
-        let apiKey = await user.register() as string;
+        let apiKey = await user.login() as string;
         localStorage.setItem("apiKey", apiKey)
         await goto("/dashboard")
     }

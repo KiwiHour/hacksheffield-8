@@ -409,6 +409,7 @@ main {
 }
 </style>
 <main>
+	<p>We didnt make this - Will</p>
 	<div class="tower">
 		<div class="tower__group">
 			<div class="tower__brick-layer tower__brick-layer--4">
@@ -687,12 +688,12 @@ main {
 	</div>
 	<div class="message">
 		<p class="message__line">Loading…</p>
-		<p class="message__line">Sorting out the pieces…</p>
-		<p class="message__line">Assembling one brick at a time…</p>
-		<p class="message__line">Following every step…</p>
-		<p class="message__line">Being very careful not to step on the pieces…</p>
-		<p class="message__line">Trying not to get finger blisters…</p>
-		<p class="message__line">Might take longer to build than the Death Star…</p>
-		<p class="message__line">Wrapping it up…</p>
+		<p class="message__line">Querying ChatGPT</p>
+		<p class="message__line">Parsing Dataset</p>
+		<p class="message__line">Passing response to regex</p>
+		<p class="message__line">Calculationing</p>
+		<p class="message__line">Working on it</p>
+		<p class="message__line">Praying to Sam Altman</p>
+		<p class="message__line">Praying to Bill Gates</p>
 	</div>
 </main>

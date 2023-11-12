@@ -75,7 +75,7 @@
     }
 
     async function submitQuestion() {
-        chatBoxEntries.push({ type: "question", content: questionContent, typing:false });
+        chatBoxEntries[0] = { type: "question", content: questionContent, typing:false };
         console.log("here");
         chatId = (
             await aiInterface.submitQuery(questionContent, selectedPersonality)
