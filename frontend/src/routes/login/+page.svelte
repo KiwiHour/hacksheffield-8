@@ -6,9 +6,10 @@
 </script>
 
 <div id="login-wrapper">
+    <h1>Login</h1>
     <input class="text-input" type="email" placeholder="Email" bind:value={email} />
     <input class="text-input" type="password" placeholder="Password" bind:value={password} />
-    <input id="login-button" type="button" value="login" on:click={() => "do shit"}>
+    <input id="login-button" type="button" value="Login" on:click={() => "do shit"}>
 </div>
 
 <div id="register">
@@ -19,21 +20,24 @@
 <style>
     #login-wrapper {
         width: 50%;
+        height: auto;
         display: flex;
         flex-flow: column wrap;
         align-items: center;
-        justify-content: space-between;
-        margin: auto auto;
+        justify-content: center;
+        margin: auto;
 
         & .text-input {
-            width: 100%
+            width: 60%;
+            padding: 10px;
+            margin-bottom: 20px;
         }
 
         & #login-button {
-            width: 50%;
+            width: 25%;
+            padding: 10px;
         }
     }
-
 
     #register {
         display: flex;
@@ -41,5 +45,4 @@
         align-items: center;
         justify-content: center;
     }
-
 </style>

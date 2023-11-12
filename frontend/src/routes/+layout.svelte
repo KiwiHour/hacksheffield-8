@@ -34,11 +34,11 @@
                 <!-- <Link path="quiz">Quiz</Link> -->
             </div>
         </div>
-    
+
         <main>
             <slot />
         </main>
-    
+
         <div id = "footer">
             <p>Made by Will, Matt, Ayyub and Ben</p>
         </div>
@@ -64,7 +64,10 @@
     }
 
     main {
-        flex-grow: 1;
+        height: 100%;
+        overflow-y: auto;
+        align-items: center;
+        justify-content: center;
     }
 
     #header {

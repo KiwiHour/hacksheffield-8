@@ -15,15 +15,31 @@
 </script>
 
 <div id="register-wrapper">
-    <input type="email" placeholder="Email" bind:value={email} />
-    <input type="password" placeholder="Password" bind:value={password} />
-    <input type="button" value="Register" on:click={registerUser}>
+    <h1>Register</h1>
+    <input class="text-input" type="email" placeholder="Email" bind:value={email} />
+    <input class="text-input" type="password" placeholder="Password" bind:value={password} />
+    <input id="register-button" type="button" value="Register" on:click={registerUser}>
 </div>
 
 <style>
     #register-wrapper {
+        width: 50%;
+        height: auto;
         display: flex;
         flex-flow: column wrap;
-        justify-content: space-between;
+        align-items: center;
+        justify-content: center;
+        margin: auto;
+
+        & .text-input {
+            width: 60%;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+
+        & #register-button {
+            width: 25%;
+            padding: 10px;
+        }
     }
 </style>
