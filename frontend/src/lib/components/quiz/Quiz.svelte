@@ -1,6 +1,9 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import { fly } from 'svelte/transition';
+  import { onMount, beforeUpdate } from 'svelte';
+    import Question from './Question.svelte';
+    import { fly } from 'svelte/transition';
+    import Loader from './Loader.svelte';
+    import ApiInterface from '$lib/managers/ApiInterface';
   import Quiz from '$lib/managers/Quiz';
 
   let questions = ['Question 1', 'Question 2', 'Question 3'];
@@ -115,6 +118,12 @@
   </style>
   <div style="">
     <h1></h1>
+    {#if currentQuestion == 7}
+      <h1>Done</h1>
+    {/if}
+    {#if currentQuestion == 6}
+      <Loader></Loader>
+    {/if}
     {#if currentQuestion == 5}
     <div in:fly={{y:-1000, duration: 500}} out:fly={{y:1000, duration: 500}} class="question">
       <h1>Number of lights</h1>
